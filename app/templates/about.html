@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* This wrapper ensures all content in this block is centered and compact */
+    .content-wrapper {
+        max-width: 680px; /* A comfortable reading width */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Styles specific to the about page layout */
+    .about-header {
+        text-align: center;
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .about-header .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+        border: 4px solid var(--white-color);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .about-header h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--heading-color);
+        font-weight: 600;
+    }
+
+    .about-header .subtitle {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        margin-top: 0.5rem;
+    }
+
+    /* Article Content Styling */
+    .article-content {
+        padding-bottom: 4rem; 
+    }
+    
+    .article-content h2 {
+        font-family: var(--font-serif);
+        color: var(--heading-color);
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.75rem;
+    }
+
+    .article-content p {
+        margin-bottom: 1.5rem;
+    }
+    
+    .article-content .lead {
+        font-family: var(--font-serif);
+        font-size: 1.2rem;
+        color: var(--heading-color);
+        margin-bottom: 1.5rem;
+    }
+
+    .article-content a {
+        color: var(--accent-color);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .article-content a:hover {
+        border-bottom: 1px solid var(--accent-color);
+    }
+</style>
+
+<div class="content-wrapper">
+    <header class="about-header">
+        <img src="https://placehold.co/150x150/D4BFAA/2c2c2c?text=IK" alt="Ibrahim Kiyemba" class="profile-image">
+        <h1>About Me</h1>
+        <p class="subtitle">Engineer, Programmer, Explorer, Family Man.</p>
+    </header>
+
+    <div class="article-content">
+        <p class="lead">There is a certain music to the world that I have always been attuned to. It’s in the clean logic of a well-written line of code, the satisfying click of a perfectly machined part, and the steady rhythm of a bicycle chain on a long journey. My life has been a pursuit of this harmony, an attempt to understand and contribute to the intricate systems that make up our world, both mechanical and human.</p>
+
+        <p>I am, <strong>by trade and by heart, a builder.</strong> My days are often spent deep in the world of mechanical engineering and the fascinating realm of microcontrollers. There is a profound satisfaction in designing a system, whether it’s a complex piece of machinery or a simple circuit, and seeing it come to life—a tangible result of logic, precision, and a touch of creativity. This passion extends naturally into programming, a world where I can <strong>build entire universes out of pure thought.</strong> It’s a craft that demands curiosity and rewards it in equal measure, a quality I’ve nurtured since I was a child. The thrill of debugging a faulty circuit is, for me, not so different from hunting down a bug in a thousand lines of code; both are puzzles waiting for a patient mind to solve.</p>
+
+        <h2>A Journey Shaped by Resilience</h2>
+        <p class="lead">To understand me is to understand that my story is <strong>deeply rooted in the soil of Uganda.</strong> It is a story not just of a person, but of a nation that has endured, healed, and continued to find its rhythm against all odds.</p>
+
+        <p>I have lived through its most tumultuous chapters—the major wars that reshaped our nation and the devastating AIDS scourge that left an indelible mark on our collective soul. To witness such profound loss and resilience firsthand is to have your understanding of life <strong>fundamentally altered.</strong> It strips away the trivial, the superficial, and leaves you with a raw, unfiltered appreciation for the simple fact of existence. It has shaped my perception of beauty, teaching me to find it not just in the grand landscapes of the Rwenzori Mountains, but in a shared meal with family, the unrestrained joy in a child’s laugh, or the quiet, unbreakable strength of my community.</p>
+
+        <p>This history has not hardened me; it has, in fact, made me softer. It has instilled in me an emotional depth that often catches me by surprise. I am a man who cries easily, not from sadness, but from an overwhelming sense of gratitude and happiness. A kind gesture from a stranger, a moment of profound connection with my family, or the simple, breathtaking beauty of a Ugandan sunset can fill my heart to the brim. This, I believe, is <strong>not a weakness, but a testament to a life lived with open eyes</strong> and an open heart. It is the dividend of having seen the worst and choosing, every day, to seek out the best.</p>
+
+        <h2>The Anchors of My World</h2>
+        <p class="lead">For all my love of travel—the thrill of exploring a new path on my bike, the freedom of an open road—I have learned that true exploration is not just about the miles you cover, but about the center you return to.</p>
+
+        <p>My true compass has always been my family. They are the grounding force in my life, the constant in a world of variables. They are the ones who see beyond the engineer and the programmer, to the innate child in me who is still filled with boundless curiosity. They remind me of what truly matters, providing the love and support that fuels all my other passions. It is in <strong>the safety of their embrace</strong> that I find the courage to be vulnerable, to be creative, and to continue asking "why?"</p>
+
+        <p>So, this is me: a man fascinated by the mechanics of the world, yet moved most deeply by its intangible emotions. A programmer who finds elegance in logic, and a Ugandan who finds strength in survival and beauty in simplicity. Thank you for joining me on this small part of my journey.</p>
+    </div>
+</div>
+{% endblock %}

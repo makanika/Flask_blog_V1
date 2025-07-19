@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* --- Login Form Specific Styling --- */
+    .login-wrapper {
+        max-width: 400px;
+        margin: 4rem auto;
+        padding: 2.5rem;
+        background-color: var(--white-color);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .login-header { text-align: center; margin-bottom: 2rem; }
+    .login-header h1 { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; color: var(--heading-color); }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--heading-color); }
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        background-color: var(--bg-color);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form-input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 0 3px rgba(212, 191, 170, 0.3); }
+    .form-button {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        border: none;
+        border-radius: 6px;
+        background-color: var(--accent-color);
+        color: var(--heading-color);
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    .form-button:hover { background-color: var(--accent-color-dark); }
+    .checkbox-group { display: flex; align-items: center; gap: 0.5rem; }
+    .form-error { color: var(--error-color); font-size: 0.8rem; margin-top: 0.25rem; }
+
+    @media (max-width: 768px) {
+        .login-wrapper { margin: 2rem auto; padding: 2rem; }
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-header">
+        <h1>Sign In</h1>
+    </div>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+            {{ form.username.label(class="form-label") }}
+            {{ form.username(class="form-input", size=32) }}
+            {% for error in form.username.errors %}
+                <span class="form-error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
+            {{ form.password.label(class="form-label") }}
+            {{ form.password(class="form-input", size=32) }}
+            {% for error in form.password.errors %}
+                <span class="form-error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group checkbox-group">
+            {{ form.remember_me() }}
+            {{ form.remember_me.label(class="form-label", style="margin-bottom: 0;") }}
+        </div>
+
+        {{ form.submit(class="form-button") }}
+    </form>
+</div>
+{% endblock %}
