@@ -2,8 +2,8 @@
 
 {% block content %}
 <style>
-    /* --- Login Form Specific Styling --- */
-    .login-wrapper {
+    /* --- Registration Form Specific Styling (matches login form) --- */
+    .register-wrapper {
         max-width: 400px;
         margin: 4rem auto;
         padding: 2.5rem;
@@ -12,8 +12,8 @@
         border-radius: 8px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
-    .login-header { text-align: center; margin-bottom: 2rem; }
-    .login-header h1 { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; color: var(--heading-color); }
+    .register-header { text-align: center; margin-bottom: 2rem; }
+    .register-header h1 { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; color: var(--heading-color); }
     .form-group { margin-bottom: 1.5rem; }
     .form-label { display: block; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; color: var(--heading-color); }
     .form-input {
@@ -41,30 +41,16 @@
         transition: background-color 0.3s ease;
     }
     .form-button:hover { background-color: var(--accent-color-dark); }
-    .checkbox-group { display: flex; align-items: center; gap: 0.5rem; }
     .form-error { color: var(--error-color); font-size: 0.8rem; margin-top: 0.25rem; }
-    .form-footer {
-        margin-top: 1.5rem;
-        text-align: center;
-        font-size: 0.85rem;
-    }
-    .form-footer a {
-        color: var(--accent-color);
-        text-decoration: none;
-        font-weight: 500;
-    }
-    .form-footer a:hover {
-        text-decoration: underline;
-    }
 
     @media (max-width: 768px) {
-        .login-wrapper { margin: 2rem auto; padding: 2rem; }
+        .register-wrapper { margin: 2rem auto; padding: 2rem; }
     }
 </style>
 
-<div class="login-wrapper">
-    <div class="login-header">
-        <h1>Sign In</h1>
+<div class="register-wrapper">
+    <div class="register-header">
+        <h1>Create Your Account</h1>
     </div>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
@@ -78,6 +64,14 @@
         </div>
 
         <div class="form-group">
+            {{ form.email.label(class="form-label") }}
+            {{ form.email(class="form-input", size=64) }}
+            {% for error in form.email.errors %}
+                <span class="form-error">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-group">
             {{ form.password.label(class="form-label") }}
             {{ form.password(class="form-input", size=32) }}
             {% for error in form.password.errors %}
@@ -85,15 +79,15 @@
             {% endfor %}
         </div>
 
-        <div class="form-group checkbox-group">
-            {{ form.remember_me() }}
-            {{ form.remember_me.label(class="form-label", style="margin-bottom: 0;") }}
+        <div class="form-group">
+            {{ form.password2.label(class="form-label") }}
+            {{ form.password2(class="form-input", size=32) }}
+            {% for error in form.password2.errors %}
+                <span class="form-error">[{{ error }}]</span>
+            {% endfor %}
         </div>
 
         {{ form.submit(class="form-button") }}
     </form>
-    <div class="form-footer">
-        <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
-    </div>
 </div>
 {% endblock %}

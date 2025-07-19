@@ -54,6 +54,15 @@
             font-weight: 500;
             margin-left: 1.5rem;
             font-size: 0.9rem;
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 999px;
+            background-color: var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .nav-user-greeting:hover {
+            background-color: var(--accent-color);
+            color: var(--white-color);
         }
         
         /* Flashed Messages Styling */
@@ -124,7 +133,7 @@
                 {% if current_user.is_anonymous %}
                 <a href="{{ url_for('login') }}">Login</a>
                 {% else %}
-                <span class="nav-user-greeting">Hi, {{ current_user.username }}</span>
+                <a href="#" class="nav-user-greeting">Hi, {{ current_user.username }}</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
                 {% endif %}
             </nav>
