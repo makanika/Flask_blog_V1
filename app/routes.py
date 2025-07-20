@@ -1,13 +1,18 @@
 from flask_login import current_user, login_user, logout_user, login_required, login_remembered
 from flask import render_template, flash, redirect, url_for, request
 from urllib.parse import urlsplit
+from datetime import datetime, timezone
 from app import app
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from app.models import User
 import sqlalchemy as sa
 from app import db
 
-
+@app.before_request
+def before_request():
+    if current_user.is_authenticated:
+        current_user.last_seen = datetime.now(timezone.utc)
+        db.session.commit()
 
 @app.route('/')
 @app.route('/index')
@@ -24,26 +29,31 @@ def blog():
     posts = [
         {
             'author':{'username':'Joan Nantambi'},
-            'lead':'Finding and Enjoying Mathmatics in a musical environment',
+            'title':'Finding God and Living Christianity in the modern workplace',
+            'lead':'Finding God and Living Christianity in the modern workplace',
             'body':'Uganda can be a challenging place to express yourself and grow'
         },
         {
             'author':{'username':'Flavia Nanyanzi'},
+            'title':'Sexaul Harrasment and Navigating it in the workplace',
             'lead':'Finding and Enjoying Mathmatics in a musical environment',
             'body':'Uganda can be a challenging place to express yourself and grow'
         },
         {
             'author':{'username':'Solomon Kamukama'},
+            'title':'Being Led and Being Humble enough to be led',
             'lead':'Finding and Enjoying Mathmatics in a musical environment',
             'body':'Uganda can be a challenging place to express yourself and grow'
         },
         {
             'author':{'username':'Emannuel Engwaru'},
+            'title':'The Challenge of having a supervisor that is SuperMan',
             'lead':'Finding and Enjoying Mathmatics in a musical environment',
             'body':'Uganda can be a challenging place to express yourself and grow'
         },
         {
             'author':{'username':'Daniel Akiki Birungi'},
+            'title':'Navigating Leadership while Leading Professionals',
             'lead':'Finding and Enjoying Mathmatics in a musical environment',
             'body':'Uganda can be a challenging place to express yourself and grow'
         }
@@ -81,8 +91,39 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Sign Up', form=form)
 
-
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = db.first_or_404(sa.select(User).where(username == username))
+    posts = [
+        {'author': user, 'body': 'Test Post from the router #1'},
+        {'author': user, 'body': 'Test Post from the router #2'},
+        {'author': user, 'body': 'Test Post from the router #3'},
+        {'author': user, 'body': 'Test Post from the router #4'},
+    ]
+    return render_template('user.html', user=user, posts=posts)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    # Instantiate the form without arguments for simplicity
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Your profile has been updated!')
+        # Redirect to the user's profile page to see the changes
+        return redirect(url_for('user', username=current_user.username))
+    elif request.method == 'GET':
+        # This now correctly populates the form with the user's current data
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', title='Edit Profile', form=form)
+
+

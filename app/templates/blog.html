@@ -1,83 +1,52 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
     
-        {% for post in posts  %}
-            
-            
-    <main class="container">
-        <div class="blog-feed">
-            <!-- Article 1 -->
-            <article class="post-preview">
+<div class="blog-feed">
+    <!-- The for loop starts here, before the article structure -->
+    {% for post in posts %}
+        <article class="post-preview">
+            <!-- Image is now the first item in our new grid layout -->
+            <a href="#">
+                <img src="https://placehold.co/600x400/2c2c2c/F8F5F2?text={{ post.title|replace(' ', '+') }}" alt="{{ post.title }}" class="post-image">
+            </a>
+            <!-- All text content is wrapped in a div, the second item in the grid -->
+            <div class="post-preview-content">
                 <header class="post-preview-header">
                     <div class="post-category">Mindfulness</div>
+                    <h2 class="post-title"><a href="#">{{ post.title }}</a></h2>
+                    <div class="post-meta">
+                        By <a href="#">{{ post.author.username }}</a>
+                    </div>
+                </header>
+                <div class="post-excerpt">
+                    <p>{{ post.body }}</p>
+                </div>
+                <a href="#" class="read-more-link">Read More &rarr;</a>
+            </div>
+        </article>
+    {% else %}
+        <!-- This placeholder uses the same, new beautiful layout -->
+        <article class="post-preview">
+            <a href="#">
+                <img src="https://placehold.co/600x400/2c2c2c/F8F5F2?text=Serenity" alt="A serene, minimalist landscape" class="post-image">
+            </a>
+            <div class="post-preview-content">
+                <header class="post-preview-header">
+                    <div class="post-category">Placeholder</div>
                     <h2 class="post-title"><a href="#">Finding Stillness in a Noisy World</a></h2>
                     <div class="post-meta">
-                        By <a href="#">{{ post.author.username }}</a> &middot; July 19, 2025
+                        By <a href="#">Ibrahim Kiyemba</a>
                     </div>
                 </header>
-                <a href="#"><img src="https://placehold.co/1200x600/F8F5F2/4a4a4a?text=Serenity" alt="A serene, minimalist landscape" class="post-image"></a>
                 <div class="post-excerpt">
-                    <p>A gentle exploration into the practice of returning to the present moment, finding a quiet space within ourselves amidst the chaos of the modern world.</p>
+                    <p>This is an example of what a blog post will look like. Once you add real posts to your database, they will appear here, and this placeholder will disappear.</p>
                 </div>
                 <a href="#" class="read-more-link">Read More &rarr;</a>
-            </article>
-
-            <!-- Article 2 -->
-            <article class="post-preview">
-                <header class="post-preview-header">
-                    <div class="post-category">Digital Wellbeing</div>
-                    <h2 class="post-title"><a href="#">The Simple Joy of a Digital Detox</a></h2>
-                    <div class="post-meta">
-                        By <a href="#">{{ post.author.username }}</a> &middot; July 15, 2025
-                    </div>
-                </header>
-                <a href="#"><img src="https://placehold.co/1200x600/F5F5F5/4a4a4a?text=Disconnect" alt="A person turning off a phone" class="post-image"></a>
-                <div class="post-excerpt">
-                    <p>In a world that demands our constant attention, intentionally disconnecting is not an escape, but a necessary act of self-preservation and a path back to clarity.</p>
-                </div>
-                <a href="#" class="read-more-link">Read More &rarr;</a>
-            </article>
-
-            <!-- Article 3 -->
-            <article class="post-preview">
-                <header class="post-preview-header">
-                    <div class="post-category">Creativity</div>
-                    <h2 class="post-title"><a href="#">Cultivating Creativity Through Daily Observation</a></h2>
-                    <div class="post-meta">
-                        By <a href="#">{{ post.author.username }}</a> &middot; July 10, 2025
-                    </div>
-                </header>
-                <a href="#"><img src="https://placehold.co/1200x600/F2F8F8/4a4a4a?text=Observe" alt="A close-up of a leaf with water droplets" class="post-image"></a>
-                <div class="post-excerpt">
-                    <p>Unlocking your creative potential doesn't require a grand gesture. It begins with the simple, quiet act of paying attention to the details of the world around you.</p>
-                </div>
-                <a href="#" class="read-more-link">Read More &rarr;</a>
-            </article>
-
-            <!-- Article 4 -->
-            <article class="post-preview">
-                <header class="post-preview-header">
-                    <div class="post-category">Personal Growth</div>
-                    <h2 class="post-title"><a href="#">The Power of a Mindful Morning Routine</a></h2>
-                    <div class="post-meta">
-                        By <a href="#">{{ post.author.username }}</a> &middot; July 5, 2025
-                    </div>
-                </header>
-                <a href="#"><img src="https://placehold.co/1200x600/FAF3F3/4a4a4a?text=Morning" alt="Sunlight streaming through a window in the morning" class="post-image"></a>
-                <div class="post-excerpt">
-                    <p>How you start your day sets the tone for everything that follows. Crafting a mindful morning routine is an investment in your own peace and productivity.</p>
-                </div>
-                <a href="#" class="read-more-link">Read More &rarr;</a>
-            </article>
-        </div>
-    </main>
-
-        {% endfor %}
-
-
-
+            </div>
+        </article>
+    {% endfor %}
+    <!-- The for loop ends here, after the article structure -->
+</div>
 
 {% endblock content %}
-    

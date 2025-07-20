@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-wrapper">
+    <header class="user-profile-header">
+        <img src="{{ user.avatar(128) }}" alt="{{ user.username }}" class="avatar">
+        <div class="user-info">
+            <h1>{{ user.username }}</h1>
+            {% if user.about_me %}<p class="user-bio">{{ user.about_me }}</p>{% endif %}
+            {% if user.last_seen %}<p class="user-last-seen">Last seen on: {{ user.last_seen }}</p>{% endif %}
+            {% if user == current_user %}
+            <p><a href="{{ url_for('edit_profile') }}" class="edit-profile-link">Edit your profile</a></p>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="user-posts-list">
+        {% for post in posts %}
+        <div class="user-post">
+            <p>
+                {{ post.author.username }} says: <b>{{ post.body }}</b>
+            </p>
+        </div>
+        {% else %}
+        <p>{{ user.username }} has not posted anything yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
