@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* This wrapper ensures all content in this block is centered and compact */
+    .content-wrapper {
+        max-width: 680px; /* A comfortable reading width */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Styles for the documentation page's main header */
+    .doc-header {
+        text-align: center;
+        margin-top: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .doc-header h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--heading-color);
+        font-weight: 600;
+    }
+    
+    .doc-header p {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        margin-top: 0.5rem;
+    }
+    
+    /* --- Sub-Navigation Bar --- */
+    .doc-nav-wrapper {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+        padding: 1rem 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 3rem;
+    }
+
+    .doc-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    
+    .doc-nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        padding-bottom: 0.25rem;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .doc-nav a:hover {
+        color: var(--accent-color);
+    }
+    
+    .doc-nav a.active {
+        color: var(--heading-color);
+        border-bottom-color: var(--accent-color);
+    }
+    
+    /* Styles for each section of the documentation */
+    .doc-section {
+        margin-bottom: 4rem;
+        padding-top: 2rem; /* Add padding for scroll-spy accuracy */
+    }
+    
+    .doc-section h2 {
+        font-family: var(--font-serif);
+        font-size: 1.75rem;
+        color: var(--heading-color);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    pre {
+        background-color: #2c2c2c;
+        color: #F8F5F2;
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+
+    /* --- Interactive Styles --- */
+    .selector {
+        cursor: pointer;
+        color: #93c5fd; /* A light blue to indicate interactivity */
+        text-decoration: underline;
+        font-weight: bold;
+    }
+    .selector:hover {
+        color: #60a5fa;
+    }
+    .highlight {
+        outline: 3px solid var(--accent-color);
+        box-shadow: 0 0 15px var(--accent-color);
+        transition: all 0.3s ease-in-out;
+        border-radius: 4px;
+    }
+</style>
+
+<div class="content-wrapper">
+    <header class="doc-header">
+        <h1>Interactive CSS Style Guide</h1>
+        <p>A living document for the "Serene Harmony" theme. Click on a CSS selector to see it in action.</p>
+    </header>
+
+    <div class="doc-nav-wrapper">
+        <nav class="doc-nav">
+            <a href="#variables">Variables</a>
+            <a href="#base-styles">Base</a>
+            <a href="#header-nav">Header</a>
+            <a href="#forms">Forms</a>
+            <a href="#blog-feed">Blog Feed</a>
+            <a href="#user-profile">User Profile</a>
+        </nav>
+    </div>
+
+    <section id="variables" class="doc-section">
+        <h2>Theme Foundation: CSS Variables</h2>
+        <p>This section defines the entire color and font palette for the website. By centralizing these values, you can change the entire look and feel of the site by editing just this one section.</p>
+        <pre>
+:root {
+    --bg-color: #F8F5F2;
+    --text-color: #4a4a4a;
+    --heading-color: #2c2c2c;
+    --accent-color: #D4BFAA;
+    --accent-color-dark: #c8b09b;
+    --border-color: #e0dcd7;
+    --white-color: #ffffff;
+    --error-color: #c53030;
+    --font-serif: 'Lora', serif;
+    --font-sans: 'Inter', sans-serif;
+}
+        </pre>
+    </section>
+
+    <section id="base-styles" class="doc-section">
+        <h2>Base & Reset Styles</h2>
+        <p>These rules apply to the entire document to create a consistent starting point across all browsers.</p>
+        <pre>
+* { 
+    box-sizing: border-box; 
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container { 
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+        </pre>
+    </section>
+
+    <section id="header-nav" class="doc-section">
+        <h2>Header & Navigation</h2>
+        <p>Styles for the main site header. Click on a selector like <code class="selector" data-target=".site-title">.site-title</code> to highlight it on the page.</p>
+        <pre>
+.main-header { 
+    padding: 1.5rem 0; 
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 3rem;
+}
+
+.header-container { 
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title { 
+    font-family: var(--font-serif); 
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--heading-color); 
+    text-decoration: none; 
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.main-nav a { 
+    color: var(--text-color); 
+    text-decoration: none; 
+    margin-left: 1.5rem;
+    font-size: 0.9rem; 
+    transition: color 0.3s ease;
+}
+
+.nav-user-greeting {
+    color: var(--heading-color);
+    font-weight: 500;
+    margin-left: 1.5rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+    background-color: var(--border-color);
+    transition: all 0.3s ease;
+}
+        </pre>
+    </section>
+    
+    <section id="forms" class="doc-section">
+        <h2>Forms</h2>
+        <p>Shared styles for all forms. Since there is no form on this page, clicking these selectors will show an alert.</p>
+        <pre>
+.form-wrapper {
+    max-width: 400px;
+    margin: 4rem auto;
+    padding: 2.5rem;
+    background-color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.form-header h1 { 
+    font-family: var(--font-serif); 
+    font-size: 2rem; 
+    font-weight: 600; 
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-button {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--accent-color);
+    color: var(--heading-color);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+        </pre>
+    </section>
+
+    <section id="blog-feed" class="doc-section">
+        <h2>Blog Feed</h2>
+        <p>Styles for the article list. Since there is no blog feed on this page, clicking these will show an alert.</p>
+        <pre>
+.blog-feed { 
+    display: grid; 
+    gap: 4rem; 
+}
+
+.post-preview { 
+    border-bottom: 1px solid var(--border-color); 
+    padding-bottom: 2rem; 
+}
+
+.post-title { 
+    font-family: var(--font-serif); 
+    font-size: 2.2rem;
+    font-weight: 600; 
+    color: var(--heading-color); 
+    line-height: 1.2; 
+}
+
+.post-image { 
+    width: 100%; 
+    height: auto; 
+    border-radius: 8px; 
+    margin-bottom: 1.5rem; 
+}
+        </pre>
+    </section>
+
+    <section id="user-profile" class="doc-section">
+        <h2>User Profile</h2>
+        <p>Styles for user profile pages. Since there is no profile on this page, clicking these will show an alert.</p>
+        <pre>
+.user-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.user-profile-header .avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--white-color);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.user-profile-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+        </pre>
+    </section>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.doc-section');
+        const navLinks = document.querySelectorAll('.doc-nav a');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').substring(1) === entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: "-50% 0px -50% 0px" });
+        sections.forEach(section => observer.observe(section));
+
+        const codeBlocks = document.querySelectorAll('pre');
+        
+        const makeSelectorsClickable = (block) => {
+            const selectorsToHighlight = [
+                '.main-header', '.site-title', '.main-nav a', '.nav-user-greeting',
+                '.form-wrapper', '.form-header h1', '.form-input', '.form-button', '.form-error',
+                '.blog-feed', '.post-preview', '.post-title', '.user-profile-header', '.user-profile-header .avatar', '.user-profile-header h1'
+            ];
+            
+            let html = block.innerHTML;
+            selectorsToHighlight.forEach(selector => {
+                const regex = new RegExp(`(${selector.replace('.', '\\.')})`, 'g');
+                html = html.replace(regex, `<span class="selector" data-target="${selector}">$1</span>`);
+            });
+            block.innerHTML = html;
+        };
+
+        codeBlocks.forEach(makeSelectorsClickable);
+
+        document.querySelectorAll('.selector').forEach(selectorSpan => {
+            selectorSpan.addEventListener('click', () => {
+                document.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+
+                const targetSelector = selectorSpan.dataset.target;
+                const elementsToHighlight = document.querySelectorAll(targetSelector);
+
+                if (elementsToHighlight.length > 0) {
+                    elementsToHighlight.forEach(el => el.classList.add('highlight'));
+                    elementsToHighlight[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => {
+                        elementsToHighlight.forEach(el => el.classList.remove('highlight'));
+                    }, 3000);
+                } else {
+                    alert(`Element "${targetSelector}" is not on this page, but its styles are in the main CSS file.`);
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

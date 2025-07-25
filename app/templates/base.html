@@ -18,15 +18,19 @@
 
     <header class="main-header">
         <div class="container header-container">
-            <a href="{{ url_for('index') }}" class="site-title">Vocal Harmony</a>
+            <a href="{{ url_for('index') }}" class="site-title">VocalHarmony</a>
             <nav class="main-nav">
                 <a href="{{ url_for('index') }}">Home</a>
                 <a href="{{ url_for('about') }}">About</a>
                 <a href="{{ url_for('blog') }}">Articles</a>
                 <a href="#">Contact</a>
+                
+                <!-- Dynamic Login/Logout/Profile Link -->
                 {% if current_user.is_anonymous %}
                 <a href="{{ url_for('login') }}">Login</a>
                 {% else %}
+                <a href="{{ url_for('documentation') }}">Docs</a>
+                <a href="{{ url_for('style_guide') }}">Guide</a>
                 <a href="{{ url_for('user', username=current_user.username) }}" class="nav-user-greeting">Profile</a>
                 <a href="{{ url_for('logout') }}">Logout</a>
                 {% endif %}
@@ -51,7 +55,7 @@
 
     <footer class="main-footer">
         <div class="container">
-            <p>&copy; 2025 Microblog. All Rights Reserved.</p>
+            <p>&copy; 2025 VocalHarmony. All Rights Reserved.</p>
             <p>A space for mindful creation and quiet reflection.</p>
         </div>
     </footer>

@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* This wrapper ensures all content in this block is centered and compact */
+    .content-wrapper {
+        max-width: 680px; /* A comfortable reading width */
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Styles for the documentation page's main header */
+    .doc-header {
+        text-align: center;
+        margin-top: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    .doc-header h1 {
+        font-family: var(--font-serif);
+        font-size: 2.5rem;
+        color: var(--heading-color);
+        font-weight: 600;
+    }
+    
+    .doc-header p {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        margin-top: 0.5rem;
+    }
+    
+    /* --- New Sub-Navigation Bar --- */
+    .doc-nav-wrapper {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+        padding: 1rem 0;
+        z-index: 10;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 3rem;
+    }
+
+    .doc-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    
+    .doc-nav a {
+        color: var(--text-color);
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        padding-bottom: 0.25rem;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .doc-nav a:hover {
+        color: var(--accent-color);
+    }
+    
+    .doc-nav a.active {
+        color: var(--heading-color);
+        border-bottom-color: var(--accent-color);
+    }
+    
+    /* Styles for each section of the documentation */
+    .doc-section {
+        margin-bottom: 4rem;
+        padding-top: 2rem; /* Add padding for scroll-spy accuracy */
+    }
+    
+    .doc-section h2 {
+        font-family: var(--font-serif);
+        font-size: 1.75rem;
+        color: var(--heading-color);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .doc-section h3 {
+        font-family: var(--font-serif);
+        font-size: 1.4rem;
+        color: var(--heading-color);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .doc-section p {
+        margin-bottom: 1.5rem;
+    }
+
+    .doc-section ul {
+        list-style-position: inside;
+        margin-left: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    pre {
+        background-color: #2c2c2c; /* Using a dark color directly */
+        color: #F8F5F2; /* Using a light color directly */
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        white-space: pre-wrap; /* Allows long lines to wrap */
+        word-wrap: break-word;
+    }
+</style>
+
+<div class="content-wrapper">
+    <header class="doc-header">
+        <h1>Application Documentation</h1>
+        <p>A complete guide to the VocalHarmony blog application.</p>
+    </header>
+
+    <div class="doc-nav-wrapper">
+        <nav class="doc-nav">
+            <a href="#factory">Factory</a>
+            <a href="#launcher">Launcher</a>
+            <a href="#connection">Connection</a>
+        </nav>
+    </div>
+
+    <section id="factory" class="doc-section">
+        <h2>1. The Application Factory (`app/__init__.py`)</h2>
+        <p>This file is the heart of your application's setup. Its main purpose is to define a function, `create_app()`, which builds and configures your entire Flask application. This is known as the "Application Factory" pattern, and it's the best practice for building scalable and testable Flask apps.</p>
+        <pre>
+from flask import Flask
+from config import Config
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager
+
+db = SQLAlchemy()
+migrate = Migrate()
+login = LoginManager()
+login.login_view = 'login'
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login.init_app(app)
+
+    with app.app_context():
+        from . import routes, models
+    
+    return app
+        </pre>
+        <h3>Line-by-Line Explanation</h3>
+        <ul>
+            <li><b>Line 1-5:</b> We import all the necessary classes and libraries. `Flask` is the core, `Config` is your configuration, and the others are Flask extensions for the database and user logins.</li>
+            <li><b>Line 7-9:</b> We create instances of our extensions (database, migrations, login manager). Crucially, we don't connect them to our app yet. This prevents a problem where the extension is tied to one specific version of our app, making testing difficult.</li>
+            <li><b>Line 10:</b> This line is vital for security. It tells the `LoginManager` which page to redirect users to if they try to access a page that requires them to be logged in. We're telling it, "If a user isn't logged in, send them to the `login` page."</li>
+            <li><b>Line 12:</b> This defines our factory function, `create_app()`. It takes a configuration class as an argument, which allows us to create different versions of our app (e.g., one for testing, one for production) with different settings.</li>
+            <li><b>Line 13:</b> This is the moment the actual Flask application object is created. `__name__` is a special Python variable that helps Flask know where to find other files like templates and static files.</li>
+            <li><b>Line 14:</b> This line reads your `config.py` file and loads all the settings (like your `SECRET_KEY` and `SQLALCHEMY_DATABASE_URI`) into the app.</li>
+            <li><b>Line 16-18:</b> Here, we finally connect our extensions to the app instance we just created by calling `init_app()`. This is the second half of the two-stage initialization process.</li>
+            <li><b>Line 20-21:</b> This is a very important and clever part of the structure. We import our `routes` and `models` *inside* the function. This avoids a "circular import" error, which happens when two files try to import each other at the same time. By importing here, we guarantee that the `app` object already exists before the routes try to use it.</li>
+            <li><b>Line 23:</b> The factory function returns the fully built, configured, and ready-to-use application instance.</li>
+        </ul>
+    </section>
+
+    <section id="launcher" class="doc-section">
+        <h2>2. The Launcher (`run.py`)</h2>
+        <p>This file is the "ignition key" for your application. It lives in the root directory (`uganda/`) and its only job is to find your application (using the factory) and start the development server. You will run this file directly from your terminal with `python run.py`.</p>
+        <pre>
+from app import create_app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run(debug=True)
+        </pre>
+        <h3>Line-by-Line Explanation</h3>
+        <ul>
+            <li><b>Line 1:</b> We import the `create_app` factory function from our `app` package (which points to the `__init__.py` file).</li>
+            <li><b>Line 3:</b> We call the factory function to build our application and store the finished product in a variable called `app`.</li>
+            <li><b>Line 5:</b> This is a standard Python construct. It ensures that the code inside this block only runs when you execute the file directly (`python run.py`), not when it's imported by another file.</li>
+            <li><b>Line 6:</b> This command starts Flask's built-in web server. `debug=True` is a lifesaver during development—it automatically reloads the server whenever you save a change and provides detailed error pages in the browser.</li>
+        </ul>
+    </section>
+
+    <section id="connection" class="doc-section">
+        <h2>3. The Connection: Why Two Files?</h2>
+        <p>Separating the app's creation (`__init__.py`) from its execution (`run.py`) is the key to a professional Flask structure. It solves several problems:</p>
+        <ul>
+            <li><b>It avoids circular imports.</b> Routes need to import the `app` variable, but the `app` variable needs to know about the routes. The factory pattern solves this by creating the `app` first, then importing the routes.</li>
+            <li><b>It makes your app testable.</b> For testing, you can create multiple instances of your app with different configurations (e.g., a separate test database). This is impossible if the app is created globally in a single file.</li>
+            <li><b>It's organized.</b> It creates a clear separation: one file is for *building* the app, the other is for *running* it. This makes the project much easier to understand and maintain as it grows.</li>
+        </ul>
+    </section>
+</div>
+
+<script>
+    // This script handles the active state for the sticky navigation
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.doc-section');
+        const navLinks = document.querySelectorAll('.doc-nav a');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href').substring(1) === entry.target.id) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, { rootMargin: "-50% 0px -50% 0px" }); // Activates when section is in middle of screen
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+    });
+</script>
+{% endblock %}

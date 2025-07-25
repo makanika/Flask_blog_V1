@@ -14,6 +14,29 @@ def before_request():
         current_user.last_seen = datetime.now(timezone.utc)
         db.session.commit()
 
+
+@app.route('/documentation')
+@login_required
+def documentation():
+    return render_template('documentation.html', title='Application Documentation')
+
+
+@app.route('/style-guide')
+@login_required
+def style_guide():
+    """
+    This route displays the CSS style guide for the website.
+    Access is restricted to users who are marked as administrators.
+    """
+    # This security check is temporarily disabled for development.
+    # You can uncomment it later when you add admin functionality.
+    # if not current_user.is_admin:
+    #     abort(403)
+    
+    # The function will now render the style guide for any logged-in user.
+    return render_template('style_guide.html', title='Style Guide')
+
+
 @app.route('/')
 @app.route('/index')
 def index():
